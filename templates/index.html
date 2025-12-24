@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoConverter Pro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-bitcoin"></i>
+                <h1>Crypto<span>Converter</span></h1>
+            </div>
+            <div class="last-update">
+                <i class="fas fa-clock"></i>
+                <span id="lastUpdate">--:--:--</span>
+            </div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="home">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </button>
+            <button class="tab-btn" data-tab="converter">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Converter</span>
+            </button>
+            <button class="tab-btn" data-tab="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </button>
+        </nav>
+
+        <div class="tab-content">
+            <div id="home-tab" class="tab-pane active">
+                <div class="dashboard-header">
+                    <h2><i class="fas fa-fire"></i> Live Crypto Prices</h2>
+                    <div class="currency-selector">
+                        <select id="primaryCurrency">
+                            <option value="usd">USD</option>
+                            <option value="eur">EUR</option>
+                            <option value="rub">RUB</option>
+                            <option value="cny">CNY</option>
+                            <option value="jpy">JPY</option>
+                            <option value="gbp">GBP</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="crypto-grid">
+                    <div class="crypto-card btc">
+                        <div class="card-header">
+                            <div class="coin-info">
+                                <div class="coin-icon">
+                                    <i class="fab fa-btc"></i>
+                                </div>
+                                <div>
+                                    <h3>Bitcoin</h3>
+                                    <p class="coin-symbol">BTC</p>
+                                </div>
+                            </div>
+                            <div class="price-change" id="btc-change">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>0.00%</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="price" id="btc-price">$0.00</p>
+                            <div class="volume">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Vol: $0.00B</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="crypto-card usdt">
+                        <div class="card-header">
+                            <div class="coin-info">
+                                <div class="coin-icon">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                <div>
+                                    <h3>Tether</h3>
+                                    <p class="coin-symbol">USDT</p>
+                                </div>
+                            </div>
+                            <div class="price-change" id="usdt-change">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>0.00%</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="price" id="usdt-price">$0.00</p>
+                            <div class="volume">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Vol: $0.00B</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="crypto-card track">
+                        <div class="card-header">
+                            <div class="coin-info">
+                                <div class="coin-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div>
+                                    <h3 id="track-coin-name">Bitcoin</h3>
+                                    <p class="coin-symbol" id="track-coin-symbol">BTC</p>
+                                </div>
+                            </div>
+                            <div class="price-change" id="track-change">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>0.00%</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="price" id="track-price">$0.00</p>
+                            <div class="volume">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Vol: $0.00B</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="refresh-section">
+                    <button id="refreshBtn" class="refresh-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh Data
+                    </button>
+                    <p class="auto-refresh">Auto-refresh in <span id="countdown">30</span>s</p>
+                </div>
+            </div>
+
+            <div id="converter-tab" class="tab-pane">
+                <div class="converter-header">
+                    <h2><i class="fas fa-exchange-alt"></i> Crypto Converter</h2>
+                </div>
+
+                <div class="converter-card">
+                    <div class="converter-section">
+                        <label>From</label>
+                        <div class="input-group">
+                            <input type="number" id="fromAmount" placeholder="0.00" step="0.00000001" min="0">
+                            <div class="currency-select">
+                                <button class="currency-btn" id="fromCurrencyBtn">
+                                    <i class="fab fa-btc"></i>
+                                    <span>BTC</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <div class="currency-dropdown" id="fromDropdown">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swap-section">
+                        <button id="swapBtn" class="swap-btn">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </div>
+
+                    <div class="converter-section">
+                        <label>To</label>
+                        <div class="input-group">
+                            <input type="text" id="toAmount" placeholder="0.00" readonly>
+                            <div class="currency-select">
+                                <button class="currency-btn" id="toCurrencyBtn">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    <span>USD</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <div class="currency-dropdown" id="toDropdown">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="conversion-rate">
+                        <p id="conversionRateText">1 BTC = $0.00</p>
+                    </div>
+
+                    <button id="convertBtn" class="convert-btn">
+                        <i class="fas fa-bolt"></i>
+                        Convert Now
+                    </button>
+
+                    <div class="quick-amounts">
+                        <button class="quick-btn" data-amount="100">$100</button>
+                        <button class="quick-btn" data-amount="500">$500</button>
+                        <button class="quick-btn" data-amount="1000">$1,000</button>
+                        <button class="quick-btn" data-amount="0.1">0.1 BTC</button>
+                    </div>
+                </div>
+
+                <div class="recent-conversions">
+                    <h3><i class="fas fa-history"></i> Recent Conversions</h3>
+                    <div id="conversionHistory">
+                    </div>
+                </div>
+            </div>
+
+            <div id="settings-tab" class="tab-pane">
+                <div class="settings-header">
+                    <h2><i class="fas fa-cog"></i> Settings</h2>
+                </div>
+
+                <div class="settings-card">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <i class="fas fa-globe"></i>
+                            <div>
+                                <h4>Primary Currency</h4>
+                                <p>Display all prices in this currency</p>
+                            </div>
+                        </div>
+                        <select id="settingsCurrency" class="settings-select">
+                            <option value="usd">USD - US Dollar</option>
+                            <option value="eur">EUR - Euro</option>
+                            <option value="rub">RUB - Russian Ruble</option>
+                            <option value="cny">CNY - Chinese Yuan</option>
+                            <option value="jpy">JPY - Japanese Yen</option>
+                            <option value="gbp">GBP - British Pound</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <i class="fas fa-star"></i>
+                            <div>
+                                <h4>Tracking Coin</h4>
+                                <p>Coin to display on dashboard</p>
+                            </div>
+                        </div>
+                        <div class="coin-search">
+                            <input type="text" id="coinSearch" placeholder="Search coin (e.g., ethereum, solana)">
+                            <button id="searchBtn"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div id="coinResults" class="coin-results">
+                        </div>
+                        <div class="current-tracking">
+                            Currently tracking: <strong id="currentTrackingCoin">Bitcoin (BTC)</strong>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <i class="fas fa-sync-alt"></i>
+                            <div>
+                                <h4>Auto-refresh</h4>
+                                <p>Update prices automatically</p>
+                            </div>
+                        </div>
+                        <select id="refreshInterval" class="settings-select">
+                            <option value="10">Every 10 seconds</option>
+                            <option value="30" selected>Every 30 seconds</option>
+                            <option value="60">Every minute</option>
+                            <option value="300">Every 5 minutes</option>
+                            <option value="0">Off</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <i class="fas fa-palette"></i>
+                            <div>
+                                <h4>Theme</h4>
+                                <p>Interface appearance</p>
+                            </div>
+                        </div>
+                        <div class="theme-buttons">
+                            <button class="theme-btn active" data-theme="dark">
+                                <i class="fas fa-moon"></i> Dark
+                            </button>
+                            <button class="theme-btn" data-theme="light">
+                                <i class="fas fa-sun"></i> Light
+                            </button>
+                        </div>
+                    </div>
+
+                    <button id="saveSettingsBtn" class="save-btn">
+                        <i class="fas fa-save"></i>
+                        Save Settings
+                    </button>
+
+                    <div class="api-status">
+                        <div class="status-indicator active"></div>
+                        <span>CoinGecko API: <strong>Connected</strong></span>
+                        <div class="status-time">
+                            <i class="fas fa-clock"></i>
+                            Last update: <span id="apiLastUpdate">--:--:--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Powered by CoinGecko API</p>
+            <p class="version">v1.0.0</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
