@@ -4,10 +4,11 @@
 
 ## Быстрый старт
 ```
+git clone https://github.com/ghbladeshirro/crypto-web-app
 pip install -r requirements.txt
 python app.py
+в браузере: http://localhost:5000
 ```
-В браузере: http://localhost:5000
 
 ## Функционал
 
